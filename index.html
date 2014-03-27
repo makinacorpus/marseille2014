@@ -157,7 +157,7 @@
 <body>
   <div id="header">
     <a href="http://www.makina-corpus.com" target="_blank"><img id="logo" src="http://depot.makina-corpus.org/public/logo.gif"></a>
-    <h1 id="title">Élections municipales 2014 à Marseille - Premier tour (en cours de création)</h1>
+    <h1 id="title">Élections municipales 2014 à Marseille - Premier tour</h1>
     <h3 id="title2">Résultats par bureau de vote - la couleur affichée est celle du candidat arrivé en tête.</h3>
   </div>
   <div id="map"></div>
@@ -174,10 +174,10 @@
 
     var osmAttrib='Par <a href="http://www.makina-corpus.com" target="_blank">Makina Corpus</a> | <a href="https://github.com/makinacorpus/marseille2014/tree/gh-pages" target="_blank">Code</a> | <a href="http://www.marseille.fr/municipales2014/" target="_blank">Données électorales</a> | <a href="http://www.cartelec.net/?page_id=3609" target="_blank">Découpage</a>';
 
-    var map = L.map('map', {maxZoom: 17, minZoom: 11}).setView([43.3, 5.45], 12);
+    var map = L.map('map', {maxZoom: 17, minZoom: 11}).setView([43.3, 5.45], 11);
     // Don't show the 'Powered by Leaflet' text 
     map.attributionControl.setPrefix(osmAttrib);
-    map.setMaxBounds(new L.LatLngBounds(new L.LatLng(43.2,5.18),new L.LatLng(43.47,5.64)));
+    map.setMaxBounds(new L.LatLngBounds(new L.LatLng(43.0,4.5),new L.LatLng(43.77,6.2)));
 
     L.tileLayer("http://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",{attribution:'&copy; Contributeurs <a href="http://osm.org/copyright" target="_blank">OpenStreetMap</a>'}).addTo(map)
 
