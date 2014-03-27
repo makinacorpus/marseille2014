@@ -213,7 +213,7 @@
 
     function highlightFeature(e) {
       var layer = e.target;
-      /*legend.update(layer.feature.properties);*/
+      legend.update(layer.feature.properties);
       layer.setStyle({
         weight: 4,
       });
@@ -223,7 +223,7 @@
 
     function resetHighlight(e) {
       geojson.setStyle(bureauxStyle);
-      /*legend.update();*/
+      legend.update();
     }
 
     function onEachFeature(feature, layer) {
@@ -238,7 +238,7 @@
       onEachFeature: onEachFeature
     }).addTo(map);
 
-    /*var legend = L.control({position: 'topright'});
+    var legend = L.control({position: 'topright'});
 
     legend.onAdd = function (map) {
       this._div = L.DomUtil.create('div', 'legend info');
@@ -248,41 +248,30 @@
 
     legend.update = function (bureau) {
       if (bureau) {
+        console.log(bureau);
         var resultsList = '<ul>';
-        for(var key in results[bureau.ASSOCIANT]) {
-          var value = results[bureau.ASSOCIANT][key];
+        for(var key in results[bureau.BUREAU]) {
+          var office_result = results[bureau.BUREAU][key];
+          console.log(office_result);
           resultsList += '<li><canvas class="bar" width="';
-          resultsList += value[Object.keys(value)]*2;
-          resultsList += '" height="20" style="border:1px solid ' + colors[Object.keys(value)] + '; background-color:';
-          resultsList += colors[Object.keys(value)];
+          resultsList += office_result.pctvoix*2;
+          resultsList += '" height="20" style="border:1px solid ' + office_result.color + '; background-color:';
+          resultsList += office_result.color;
           resultsList += '; opacity: 0.6;"></canvas> ';
-          resultsList += fullNames[Object.keys(value)];
-          resultsList += '<span class="parti"> (' + partis[Object.keys(value)] + ')</span> : ';
-          resultsList += value[Object.keys(value)];
+          resultsList += office_result.name;
+          resultsList += ' : '
+          resultsList += office_result.pctvoix;
           resultsList += '%</li>';
         };
         resultsList += '<ul>';
-        this._div.innerHTML = '<b>' + bureau.NOM + '</b> (n°'+ bureau.ASSOCIANT.replace(/^0+/, '') + ')<br />' + resultsList;
+        this._div.innerHTML = '<b>' + bureau.NOM + '</b> (n°'+ bureau.BUREAU + ')<br />' + resultsList;
       } else{
-        var resultsList = '<ul>';
-        for(var key in resultsG1) {
-          var value = resultsG1[key];
-          resultsList += '<li><canvas class="bar" width="';
-          resultsList += value[Object.keys(value)]*2;
-          resultsList += '" height="20" style="border:1px solid ' + colors[Object.keys(value)] + '; background-color:';
-          resultsList += colors[Object.keys(value)];
-          resultsList += '; opacity: 0.6;"></canvas> ';
-          resultsList += fullNames[Object.keys(value)];
-          resultsList += '<span class="parti"> (' + partis[Object.keys(value)] + ')</span> : ';
-          resultsList += value[Object.keys(value)];
-          resultsList += '%</li>';
-        };
-        resultsList += '<ul>';
-        this._div.innerHTML = '<h3>Résultats à Toulouse</h3>' + 'Survolez un bureau de vote pour plus de détails' + resultsList;
+
+        this._div.innerHTML = '<h3>Résultats à Marseille</h3>' + '<div>Survolez un bureau de vote pour plus de détails</div>';
       };
     };
 
-    legend.addTo(map);*/
+    legend.addTo(map);
 
   </script>
   <script>
