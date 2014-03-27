@@ -159,7 +159,6 @@
     <a href="http://www.makina-corpus.com" target="_blank"><img id="logo" src="http://depot.makina-corpus.org/public/logo.gif"></a>
     <h1 id="title">Élections municipales 2014 à Marseille - Premier tour (en cours de création)</h1>
     <h3 id="title2">Résultats par bureau de vote - la couleur affichée est celle du candidat arrivé en tête.</h3>
-    <a href="by-candidate.html">Carte par candidat</a>
   </div>
   <div id="map"></div>
   <div id="footer">
@@ -173,7 +172,7 @@
   <script type="text/javascript" src="results_marseille.json"></script>
     <script type="text/javascript">
 
-    var osmAttrib='Par <a href="http://www.makina-corpus.com" target="_blank">Makina Corpus</a> | <a href="https://github.com/makinacorpus/marseille2014/tree/gh-pages" target="_blank">Code</a> | <a href="http://www.marseille.fr/municipales2014/" target="_blank">Données électorales</a> | <a href="#" target="_blank">Découpage</a>';
+    var osmAttrib='Par <a href="http://www.makina-corpus.com" target="_blank">Makina Corpus</a> | <a href="https://github.com/makinacorpus/marseille2014/tree/gh-pages" target="_blank">Code</a> | <a href="http://www.marseille.fr/municipales2014/" target="_blank">Données électorales</a> | <a href="http://www.cartelec.net/?page_id=3609" target="_blank">Découpage</a>';
 
     var map = L.map('map', {maxZoom: 17, minZoom: 11}).setView([43.3, 5.45], 12);
     // Don't show the 'Powered by Leaflet' text 
@@ -186,17 +185,16 @@
       L.control.touchHover().addTo(map);
     }
 
-    // get color depending on the candidate
+    function getColor(feature) {
+      var office_num = feature.properties['BUREAU'];
 
-    var colors = {'belaubre': '#B6A3C9', 'chouki': '#C40000', 'cohen': '#e20040', 'laroze': '#1B2638', 'maurice': '#7AB41D', 'moudenc': '#4D6BA2', 'plancade': '#EEA2B0', 'sellin': '#FF0000', 'torremocha': '#9D0000', 'deveyrac': '#8297BE'};
-    var fullNames = {'belaubre': 'Elisabeth Belaubre', 'chouki': 'Ahmed Chouki', 'cohen': 'Pierre Cohen', 'laroze': 'Serge Laroze', 'maurice': 'Antoine Maurice', 'moudenc': 'Jean-Luc Moudenc', 'plancade': 'Jean-Pierre Plancade', 'sellin': 'Jean-Christophe Sellin', 'torremocha': 'Sandra Torremocha', 'deveyrac': 'Christine de Veyrac'};
-    var partis = {'belaubre': 'RC', 'chouki': 'EXG', 'cohen': 'PS - PC - PRG', 'laroze': 'FN', 'maurice': 'EELV', 'moudenc': 'UMP - MoDem - UDI', 'plancade': 'DVG', 'sellin': 'PG', 'torremocha': 'LO', 'deveyrac': 'DVD'};
+      var first = results[office_num][0];
+      var second = results[office_num][1];
 
-    function getColor(candidat, score1, score2) {
-      if (score1 == score2) {
+      if (first.pctvoix == second.pctvoix) {
         return 'white';
       } else{
-        return colors[candidat];
+        return first.color;
       };
     }
 
@@ -205,8 +203,7 @@
         color: "lightgrey",
         weight: 1,
         opacity: 1,
-        /*fillColor: getColor(Object.keys(results[feature.properties.ASSOCIANT][0])[0], results[feature.properties.ASSOCIANT][0][Object.keys(results[feature.properties.ASSOCIANT][0])[0]], results[feature.properties.ASSOCIANT][1][Object.keys(results[feature.properties.ASSOCIANT][1])[0]]),*/
-        fillColor: 'white',
+        fillColor: getColor(feature),
         fillOpacity: 0.6
       };
     }
@@ -248,11 +245,11 @@
 
     legend.update = function (bureau) {
       if (bureau) {
-        console.log(bureau);
+
         var resultsList = '<ul>';
         for(var key in results[bureau.BUREAU]) {
           var office_result = results[bureau.BUREAU][key];
-          console.log(office_result);
+
           resultsList += '<li><canvas class="bar" width="';
           resultsList += office_result.pctvoix*2;
           resultsList += '" height="20" style="border:1px solid ' + office_result.color + '; background-color:';
