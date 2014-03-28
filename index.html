@@ -9,6 +9,8 @@
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
   <link href='http://fonts.googleapis.com/css?family=Cabin' rel='stylesheet' type='text/css'>
 
+  <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+
   <style>
 
     html, body {
@@ -243,15 +245,30 @@
       return this._div;
     };
 
+    function animateBars(dataList) {
+
+      for (var i=0; i<dataList.length; i++) {
+        var idList = '#list-' + i;
+
+        var value = dataList[i].toString() + 'px';
+        if ($(idList).length != 0) {
+          $(idList).animate({'width': value}, 'slow');
+        }
+      }
+    }
+
     legend.update = function (bureau) {
+
       if (bureau) {
 
         var resultsList = '<ul>';
+        var dataList = [];
         for(var key in results[bureau.BUREAU]) {
           var office_result = results[bureau.BUREAU][key];
 
-          resultsList += '<li><canvas class="bar" width="';
-          resultsList += office_result.pctvoix*2;
+          resultsList += '<li>'
+          // Width is initialized to 0 for animate() call effect
+          resultsList += '<canvas id="list-'+ key + '" class="bar" width="0"';
           resultsList += '" height="20" style="border:1px solid ' + office_result.color + '; background-color:';
           resultsList += office_result.color;
           resultsList += '; opacity: 0.6;"></canvas> ';
@@ -259,9 +276,14 @@
           resultsList += ' : '
           resultsList += office_result.pctvoix;
           resultsList += '%</li>';
+
+          dataList.push(office_result.pctvoix*2);
         };
         resultsList += '<ul>';
         this._div.innerHTML = '<b>' + bureau.NOM + '</b> (n°'+ bureau.BUREAU + ')<br />' + resultsList;
+
+        animateBars(dataList);
+
       } else{
 
         this._div.innerHTML = '<h3>Résultats à Marseille</h3>' + '<div>Survolez un bureau de vote pour plus de détails</div>';
