@@ -159,9 +159,9 @@
 <body>
   <div id="header">
     <a href="http://www.makina-corpus.com" target="_blank"><img id="logo" src="http://depot.makina-corpus.org/public/logo.gif"></a>
-    <h1 id="title">Élections municipales 2014 à Marseille - Premier tour</h1>
+    <h1 id="title">Élections municipales 2014 à Marseille - Second tour</h1>
     <h3 id="title2">Résultats par bureau de vote - la couleur affichée est celle du candidat arrivé en tête.</h3>
-    <a href="second-tour.html">Carte du second tour</a>
+    <a href="/">Carte du premier tour</a>
   </div>
   <div id="map"></div>
   <div id="footer">
@@ -172,7 +172,7 @@
 <!--   <script type="text/javascript" src="http://d3js.org/d3.v2.js"></script> -->
   <script type="text/javascript" src="Control.TouchHover.js"></script>
   <script type="text/javascript" src="bureaux_marseille.geojson"></script>
-  <script type="text/javascript" src="results_marseille.json"></script>
+  <script type="text/javascript" src="results_marseille_2.json"></script>
     <script type="text/javascript">
 
     var osmAttrib='Par <a href="http://www.makina-corpus.com" target="_blank">Makina Corpus</a> | <a href="https://github.com/makinacorpus/marseille2014/tree/gh-pages" target="_blank">Code</a> | <a href="http://www.marseille.fr/municipales2014/" target="_blank">Données électorales</a> | <a href="http://www.cartelec.net/?page_id=3609" target="_blank">Découpage</a> par <a href="http://twitter.com/BEnjalbal">Bertrand Enjalbal</a>';
@@ -194,9 +194,10 @@
       var first = results[office_num][0];
       var second = results[office_num][1];
 
-      if (first.pctvoix == second.pctvoix) {
+      if ((first == undefined) || (second == undefined) ||
+       (first.pctvoix == second.pctvoix)) {
         return 'white';
-      } else{
+      } else {
         return first.color;
       };
     }
